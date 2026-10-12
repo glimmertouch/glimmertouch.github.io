@@ -1,0 +1,703 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>怎么学会用 AI — 给朋友的一页指南</title>
+<style>
+:root{
+  --bg:#161618; --panel:#1c1c1f; --panel2:#222226; --line:#2d2d33;
+  --ink:#d8d8dc; --dim:#8e8e96; --faint:#757581;
+  --blue:#5d94c9; --blue-ink:#a9c9e8; --blue-bg:rgba(93,148,201,.13); --blue-line:rgba(93,148,201,.45);
+  --amber:#d29a4a; --amber-ink:#e0b878; --amber-bg:rgba(210,154,74,.12); --amber-line:rgba(210,154,74,.5);
+  --green:#63b07c; --green-ink:#a8d9b9; --green-bg:rgba(99,176,124,.12); --green-line:rgba(99,176,124,.55);
+  --red:#c96a5d; --red-ink:#e0a49a; --red-bg:rgba(201,106,93,.10); --red-line:rgba(201,106,93,.45);
+  --mono:ui-monospace,'Cascadia Mono',Consolas,'JetBrains Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--bg)}
+body{background:var(--bg);color:var(--ink);
+  font:14px/1.75 "PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;
+  padding:34px 18px 60px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:840px;margin:0 auto}
+.mono{font-family:var(--mono)}
+button{font-family:inherit}
+a{color:var(--blue-ink)}
+
+/* ---------- 页头 ---------- */
+header h1{font-size:27px;font-weight:650;letter-spacing:.01em}
+.lede{margin-top:12px;font-size:15px;color:var(--ink);max-width:40em}
+.selfdemo{margin-top:22px;border:1px solid var(--line);border-left:3px solid var(--amber);
+  background:var(--panel);border-radius:0 6px 6px 0;padding:12px 16px;font-size:13.5px;color:var(--dim)}
+.selfdemo b{color:var(--amber-ink);font-weight:600}
+
+/* ---------- 分节 ---------- */
+section{margin-top:58px;border-top:1px solid var(--line);padding-top:34px}
+h2{font-size:19px;font-weight:650;letter-spacing:.01em}
+.sintro{margin-top:6px;font-size:13.5px;color:var(--dim);max-width:42em}
+.sintro b{color:var(--ink);font-weight:600}
+
+/* ---------- §1 两种问法 ---------- */
+.tabs{display:flex;gap:0;margin:20px 0 0;border:1px solid var(--line);border-radius:6px;overflow:hidden;width:max-content;max-width:100%}
+.tabs button{font-size:13px;padding:7px 18px;background:var(--panel);color:var(--dim);
+  border:none;border-right:1px solid var(--line);cursor:pointer;white-space:nowrap;flex:1 0 auto}
+.tabs button:last-child{border-right:none}
+.tabs button[aria-pressed="true"]{background:var(--panel2);color:var(--ink);font-weight:600;
+  box-shadow:inset 0 -2px 0 var(--blue)}
+.tabs button:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
+@media(max-width:720px){.duo{grid-template-columns:1fr}}
+.bubble{border:1px solid var(--line);border-radius:6px;background:var(--panel);overflow:hidden;display:flex;flex-direction:column}
+.bubble.you{border-color:var(--blue-line)}
+.bubble.ai{border-color:var(--amber-line)}
+.bhead{display:flex;align-items:center;gap:8px;padding:7px 12px;border-bottom:1px solid var(--line);
+  font-size:11.5px;color:var(--faint)}
+.bhead .who{font-size:11px;border-radius:9px;padding:1px 8px;border:1px solid;font-weight:600}
+.who.u{color:var(--blue-ink);border-color:var(--blue-line);background:var(--blue-bg)}
+.who.a{color:var(--amber-ink);border-color:var(--amber-line);background:var(--amber-bg)}
+.bbody{padding:12px 14px;font-size:13px;line-height:1.7;flex:1}
+.bubble.you .bbody{font-family:var(--mono);font-size:12.5px;color:#b9c6d6;white-space:pre-wrap}
+.bnote{padding:8px 14px;font-size:12px;border-top:1px solid var(--line)}
+.bnote.bad{color:var(--red-ink);background:var(--red-bg)}
+.bnote.good{color:var(--green-ink);background:var(--green-bg)}
+.hl{border-bottom:2px solid transparent;transition:background .15s,border-color .15s;border-radius:1px}
+.hl.role.on{background:rgba(93,148,201,.18);border-color:var(--blue)}
+.hl.mat.on{background:rgba(99,176,124,.16);border-color:var(--green)}
+.hl.req.on{background:rgba(210,154,74,.16);border-color:var(--amber)}
+.hl.tone.on{background:rgba(142,142,150,.22);border-color:var(--dim)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;align-items:center}
+.chips .cap{font-size:12.5px;color:var(--faint)}
+.chip{font-size:12px;color:var(--dim);background:var(--panel);border:1px solid var(--line);
+  border-radius:14px;padding:2px 12px;cursor:pointer}
+.chip i{font-style:normal;margin-right:4px}
+.chip.role i{color:var(--blue)} .chip.mat i{color:var(--green)}
+.chip.req i{color:var(--amber)} .chip.tone i{color:var(--dim)}
+.chip.on{color:var(--ink);border-color:#4a4a54;background:var(--panel2)}
+.chips.gone .chip{opacity:.32;text-decoration:line-through;text-decoration-color:var(--red-line)}
+.chips.gone .cap{color:var(--red-ink);text-decoration:none}
+.concl{margin-top:20px;border:1px solid var(--line);border-left:3px solid var(--blue);
+  background:var(--panel);border-radius:0 6px 6px 0;padding:11px 16px;font-size:13.5px;color:var(--dim)}
+.concl b{color:var(--blue-ink);font-weight:600}
+.concl em{font-style:normal;color:var(--amber-ink);font-weight:600}
+
+/* ---------- §2 协作循环 ---------- */
+.loopwrap{overflow-x:auto;margin-top:18px;-webkit-overflow-scrolling:touch}
+.loopwrap svg{display:block;min-width:640px;width:100%;height:auto}
+.loophint{font-size:11.5px;color:var(--faint);text-align:center;margin-top:2px}
+.loopctrl{display:flex;justify-content:center;margin-top:12px}
+.loopctrl button{font-size:13px;color:var(--ink);background:var(--panel2);border:1px solid var(--line);
+  border-radius:5px;padding:6px 18px;cursor:pointer}
+.loopctrl button:hover{border-color:#4a4a54}
+.loopctrl button:disabled{opacity:.35;cursor:default}
+.loopdetail{margin-top:16px;border:1px solid var(--line);border-radius:6px;background:var(--panel);
+  padding:14px 18px;min-height:118px}
+.loopdetail .row1{display:flex;align-items:center;gap:10px}
+.loopdetail .idx{font-family:var(--mono);font-size:12px;color:var(--faint)}
+.loopdetail .title{font-size:15px;font-weight:600}
+.own{font-size:11px;border-radius:9px;padding:1px 8px;border:1px solid;font-weight:600}
+.own.u{color:var(--blue-ink);border-color:var(--blue-line);background:var(--blue-bg)}
+.own.a{color:var(--amber-ink);border-color:var(--amber-line);background:var(--amber-bg)}
+.loopdetail .desc{margin-top:8px;font-size:13.5px;color:var(--dim)}
+.loopdetail .ex{margin-top:8px;font-family:var(--mono);font-size:12.5px;color:#9aa8bd;
+  background:var(--bg);border:1px dashed #3a3a41;border-radius:4px;padding:6px 10px;display:inline-block}
+.legend{display:flex;flex-wrap:wrap;gap:18px;justify-content:center;margin-top:14px;font-size:12px;color:var(--faint)}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;vertical-align:-1px;border:1px solid}
+.legend .lu i{background:var(--blue-bg);border-color:var(--blue-line)}
+.legend .la i{background:var(--amber-bg);border-color:var(--amber-line)}
+
+/* ---------- §3 复习 ---------- */
+.fsrs{display:grid;grid-template-columns:300px 1fr;gap:16px;margin-top:18px}
+@media(max-width:720px){.fsrs{grid-template-columns:1fr}}
+.card3d{perspective:900px;height:190px}
+.cardinner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .5s;cursor:pointer}
+.cardinner.flipped{transform:rotateY(180deg)}
+.cface{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  border:1px solid var(--blue-line);background:linear-gradient(160deg,#1e2229,#1c1c1f);
+  border-radius:8px;padding:18px 20px;display:flex;flex-direction:column;justify-content:center;gap:10px}
+.cface.back{transform:rotateY(180deg);border-color:var(--green-line);background:linear-gradient(160deg,#1b231e,#1c1c1f)}
+.ctag{font-size:11px;color:var(--faint)}
+.cq{font-size:15.5px;font-weight:600;line-height:1.6}
+.ca{font-size:13.5px;color:var(--dim);line-height:1.75}
+.ca b{color:var(--green-ink);font-weight:600}
+.chint{font-size:11.5px;color:var(--faint);margin-top:auto}
+.card3d:focus-within .cardinner{outline:2px solid var(--blue);outline-offset:3px;border-radius:8px}
+.rates{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.rates button{font-size:12.5px;color:var(--dim);background:var(--panel);border:1px solid var(--line);
+  border-radius:5px;padding:5px 13px;cursor:pointer}
+.rates button:hover:not(:disabled){color:var(--ink);border-color:#4a4a54}
+.rates button:disabled{opacity:.3;cursor:default}
+.rates button.hot{color:var(--blue-ink);border-color:var(--blue-line);background:var(--blue-bg)}
+.rates button:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+.fsrsright .cvwrap{border:1px solid var(--line);border-radius:6px;background:var(--panel);padding:8px 8px 4px}
+canvas{display:block;width:100%;height:186px}
+.flog{margin:10px 0 0;padding:0;list-style:none;font-size:12.5px}
+.flog li{padding:3px 0;color:var(--dim);border-bottom:1px dashed #26262b}
+.flog li:last-child{border-bottom:none}
+.flog .n{font-family:var(--mono);color:var(--faint);margin-right:8px}
+.flog .r{color:var(--amber-ink)}
+.flog .d{font-family:var(--mono);color:var(--blue-ink)}
+.fdone{margin-top:12px;border:1px solid var(--green-line);background:var(--green-bg);
+  border-radius:6px;padding:11px 14px;font-size:13px;color:var(--green-ink);display:none}
+.fdone.show{display:block}
+.fdone button{margin-top:8px;font-size:12.5px;color:var(--ink);background:var(--panel2);
+  border:1px solid var(--line);border-radius:5px;padding:4px 14px;cursor:pointer}
+.fcvnote{font-size:11.5px;color:var(--faint);margin-top:6px}
+
+/* ---------- §4 路径 ---------- */
+.steps{margin-top:20px;display:flex;flex-direction:column;gap:0}
+.step{display:grid;grid-template-columns:86px 1fr;gap:16px;padding:16px 0;border-bottom:1px dashed #26262b}
+.step:last-of-type{border-bottom:none}
+.swhen{font-family:var(--mono);font-size:12px;color:var(--blue-ink);padding-top:3px}
+.step h3{font-size:14.5px;font-weight:600}
+.step p{margin-top:5px;font-size:13px;color:var(--dim)}
+.step p b{color:var(--ink);font-weight:600}
+.todo{margin-top:26px;border:1px solid var(--line);border-radius:6px;background:var(--panel);padding:14px 18px}
+.todo h3{font-size:14px;font-weight:600}
+.todo ul{list-style:none;margin-top:8px}
+.todo li{display:flex;gap:10px;align-items:flex-start;padding:6px 0;font-size:13.5px;color:var(--dim)}
+.todo li input{margin-top:4px;accent-color:var(--green);width:15px;height:15px;flex:none;cursor:pointer}
+.todo li.done label{color:var(--faint);text-decoration:line-through;text-decoration-color:var(--green-line)}
+.todo li label{cursor:pointer}
+.todonote{margin-top:8px;font-size:12px;color:var(--faint)}
+.todosync{margin-top:6px;font-size:12.5px;color:var(--green-ink);display:none}
+.todosync.show{display:block}
+
+/* ---------- §5 带走 ---------- */
+.takebox{margin-top:18px;border:1px dashed #3a3a41;border-radius:6px;background:var(--bg);
+  padding:13px 16px;font-family:var(--mono);font-size:12.5px;line-height:1.8;color:#b9c6d6;white-space:pre-wrap}
+.copyrow{margin-top:10px}
+.copyrow button{font-size:13px;color:var(--ink);background:var(--panel2);border:1px solid var(--line);
+  border-radius:5px;padding:6px 18px;cursor:pointer}
+.copyrow button:hover{border-color:#4a4a54}
+.copyrow button.ok{color:var(--green-ink);border-color:var(--green-line);background:var(--green-bg)}
+
+footer{margin-top:64px;border-top:1px solid var(--line);padding-top:18px;font-size:12px;color:var(--faint)}
+
+button:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{transition:none!important;animation:none!important}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>怎么学会用 AI</h1>
+  <p class="lede">不用背功能、不用刷教程。要练的只有三件事：<b>把活交出去、把上下文给足、把结果验收好</b>。这一页带你把三件事各练一遍。</p>
+  <div class="selfdemo">你现在看的这张页面，就是 AI 在一次对话里写出来的——<b>单文件、不依赖网络、能直接转发</b>。往下每一个能点的东西，都是它「会做事」的证据。</div>
+</header>
+
+<!-- ============ §1 两种问法 ============ -->
+<section id="s1">
+  <h2>第一件事：把上下文给足</h2>
+  <p class="sintro">同一个需求，两种问法，产出天差地别。切换下面的标签看看——左边是<b>你说的话</b>，右边是 <b>AI 的产出</b>（示意）。</p>
+
+  <div class="tabs" role="group" aria-label="问法切换">
+    <button id="tabA" aria-pressed="true">空手问</button>
+    <button id="tabB" aria-pressed="false">带着上下文问</button>
+  </div>
+
+  <div class="duo">
+    <div class="bubble you">
+      <div class="bhead"><span class="who u">你</span><span>提问</span></div>
+      <div class="bbody" id="promptBox">帮我写个工作周报。</div>
+    </div>
+    <div class="bubble ai">
+      <div class="bhead"><span class="who a">AI</span><span>产出示意</span></div>
+      <div class="bbody" id="outBox"></div>
+      <div class="bnote" id="outNote"></div>
+    </div>
+  </div>
+
+  <div class="chips" id="chipRow">
+    <span class="cap" id="chipCap">第二种问法里藏着四样东西，鼠标放到标签上找找看：</span>
+    <span class="chip role" data-k="role"><i>■</i>角色</span>
+    <span class="chip mat" data-k="mat"><i>■</i>材料</span>
+    <span class="chip req" data-k="req"><i>■</i>格式要求</span>
+    <span class="chip tone" data-k="tone"><i>■</i>语气</span>
+  </div>
+
+  <div class="concl"><b>问法决定产出。</b>AI 不是不会写，是不知道你的世界——你给的每一分背景，都会变成产出里<em>具体的东西</em>。</div>
+</section>
+
+<!-- ============ §2 协作循环 ============ -->
+<section id="s2">
+  <h2>第二件事：把活交给它，走完这个循环</h2>
+  <p class="sintro">别把 AI 当搜索框，把它当一个新来的聪明同事：<b>你负责说清楚和验收，它负责干活</b>。点任意环节看说明。</p>
+
+  <div class="loopwrap">
+    <svg viewBox="0 0 680 330" role="img" aria-label="你和 AI 的协作循环图：说清意图、给足上下文、交给它干、验收与反馈、沉淀复用，五个环节首尾相连">
+      <defs>
+        <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0,0.5 L7.5,4 L0,7.5" fill="none" stroke="#4a4a54" stroke-width="1.4"/>
+        </marker>
+      </defs>
+      <g id="arcs" fill="none" stroke="#33333a" stroke-width="1.5" marker-end="url(#arr)"></g>
+      <text x="196" y="52" font-size="11" fill="#757581" text-anchor="middle">下一件事，从头再来</text>
+      <g id="nodes"></g>
+      <text x="340" y="150" text-anchor="middle" font-size="13" fill="#8e8e96">一趟下来</text>
+      <text x="340" y="172" text-anchor="middle" font-size="13" fill="#8e8e96">大约十分钟</text>
+      <text x="340" y="194" text-anchor="middle" font-size="12" fill="#757581">换来一版能用的东西</text>
+    </svg>
+  </div>
+  <p class="loophint">小屏幕可以左右滑动</p>
+
+  <div class="loopctrl">
+    <button id="autoBtn">自动走一圈</button>
+  </div>
+
+  <div class="loopdetail" id="loopDetail" aria-live="polite"></div>
+
+  <div class="legend">
+    <span class="lu"><i></i>你：提要求、给信息、验收</span>
+    <span class="la"><i></i>AI：干活、出初版</span>
+  </div>
+</section>
+
+<!-- ============ §3 复习 ============ -->
+<section id="s3">
+  <h2>再进一步：让它替你记住「学到哪了」</h2>
+  <p class="sintro">AI 不只能讲给你听，还能按<b>你的遗忘节奏</b>安排复习——这个能力背后有个真实算法（FSRS），几乎所有现代记忆类 App 都在用。下面是它的简化版，卡片内容就是本页知识点：<b>点卡片翻面，再诚实地点一个感觉。</b></p>
+
+  <div class="fsrs">
+    <div>
+      <div class="card3d">
+        <div class="cardinner" id="cardInner" tabindex="0" role="button" aria-label="复习卡片，点击翻面看答案">
+          <div class="cface front">
+            <div class="ctag" id="cardNo">卡片 1 / 3</div>
+            <div class="cq" id="cardQ"></div>
+            <div class="chint">点一下，看答案</div>
+          </div>
+          <div class="cface back">
+            <div class="ctag">答案</div>
+            <div class="ca" id="cardA"></div>
+            <div class="chint">下面选一个诚实的感觉</div>
+          </div>
+        </div>
+      </div>
+      <div class="rates" id="rates">
+        <button data-m="0" disabled>忘了</button>
+        <button data-m="1.7" disabled>挺费劲</button>
+        <button data-m="2.6" class="hot" disabled>想起来了</button>
+        <button data-m="3.8" disabled>秒答</button>
+      </div>
+      <div class="fdone" id="fdone">
+        <div>一轮完成。真实的复习工具里，这几张卡会按各自的间隔在未来几天<b>依次回来</b>——你只管到点打开，它只管在你快忘的时候出现。学过的东西，从此不再浪费。</div>
+        <button id="fsrsReset">重新演示</button>
+      </div>
+    </div>
+    <div class="fsrsright">
+      <div class="cvwrap"><canvas id="cv" height="186"></canvas></div>
+      <p class="fcvnote" id="cvNote">红虚线是不复习时的遗忘速度。点卡片翻面、评分一次，这里就会多一条曲线；空心点是安排好的下次复习。</p>
+      <ul class="flog" id="flog"></ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ §4 路径 ============ -->
+<section id="s4">
+  <h2>从今天开始的路径</h2>
+  <p class="sintro">按顺序走，每一步都拿<b>真实的事</b>练，不专门腾时间。</p>
+  <div class="steps">
+    <div class="step">
+      <div class="swhen">第 1 天</div>
+      <div><h3>装一个，先用起来</h3>
+      <p>手机装一个 AI App（ChatGPT、豆包、Kimi、DeepSeek 都行）。拿第一节的问法问 <b>3 个真实问题</b>：周报、旅行计划、给孩子讲的睡前故事，都行。</p></div>
+    </div>
+    <div class="step">
+      <div class="swhen">第 1 周</div>
+      <div><h3>把一件重复的活交给它</h3>
+      <p>挑一件你每周都要做的事，让 AI 出初版，你按第二节的循环<b>调 2–3 轮</b>再下结论。目标不是完美，是摸清它擅长你手上哪部分。</p></div>
+    </div>
+    <div class="step">
+      <div class="swhen">第 1 个月</div>
+      <div><h3>让它产出「东西」，而不只是文字</h3>
+      <p>表格、网页、复习卡片——就像这张页面。顺手把好用的问法存起来，攒出<b>自己的 3 个高频场景</b>。</p></div>
+    </div>
+  </div>
+
+  <div class="todo">
+    <h3>今天就做</h3>
+    <ul id="todoList">
+      <li><input type="checkbox" id="t1"><label for="t1">装一个 AI App</label></li>
+      <li><input type="checkbox" id="t2"><label for="t2">用「角色 + 材料 + 要求」的问法，问一个真实问题</label></li>
+      <li><input type="checkbox" id="t3"><label for="t3">把不满意的地方具体说出来，让它改一轮</label></li>
+      <li><input type="checkbox" id="t4"><label for="t4">让它做一样「东西」（网页、表格、图），而不只是一段话</label></li>
+    </ul>
+    <p class="todonote">勾选状态记在这台设备的浏览器里，下次打开还在。</p>
+    <p class="todosync" id="todoDone">四件都做完了？那你已经会用 AI 了。</p>
+  </div>
+</section>
+
+<!-- ============ §5 带走 ============ -->
+<section id="s5">
+  <h2>最后，带走一句话</h2>
+  <p class="sintro">这张页面就是被下面这句话变出来的。复制它，发给任何一个 AI 聊天框，你也能拿到自己的页面。</p>
+  <div class="takebox" id="takeText">帮我做一张网页：单文件 HTML，样式和脚本全部内联、不依赖网络就能打开。内容是「怎么学会用 AI」的中文入门指南，深色背景、清爽排版，带上两三个能点的交互演示。直接给我完整代码，我保存成 .html 文件就能用。</div>
+  <div class="copyrow">
+    <button id="copyBtn">复制这句话</button>
+  </div>
+</section>
+
+<footer>这张页面不依赖任何网络和服务——把 HTML 文件本身发给别人，对方双击就能打开。2026-10 · 由 AI 一次对话生成，人类朋友验收。</footer>
+
+</div>
+<script>
+(function(){
+"use strict";
+var $ = function(s){ return document.querySelector(s); };
+
+/* ================= §1 两种问法 ================= */
+var promptA = "帮我写个工作周报。";
+var promptB = "我在电商公司做客服主管，带 6 个人。\n" +
+"这周的零散记录：\n" +
+"· 双十一预热上线，咨询量涨了 40%，加了一个晚班排班\n" +
+"· 新人小李第一次独立处理投诉，客户给了好评\n" +
+"· 有 3 起物流破损投诉，卡在和仓库的流程上，还没解决\n\n" +
+"帮我整理成给老板看的周报：先一句话结论，再分\n「本周结果 / 需要的支持 / 下周计划」三段，\n每段最多 3 行，务实一点，别吹。";
+var outA = "本周，本人认真完成了各项工作任务，扎实推进重点项目，积极配合同事完成协作事项，自身能力得到进一步提升。\n下周将继续保持良好工作状态，再接再厉，争取更大进步。";
+var outB = "结论：咨询高峰扛住了，人和排班都没出问题；当前唯一卡点是物流破损件的赔付流程。\n\n本周结果\n咨询量 +40%，通过晚班排班把平均响应时长稳在了原水平；新人小李首次独立处理投诉，拿到客户好评。\n\n需要的支持\n3 起破损投诉的赔付要走仓库审批，平均卡 3 天。建议本周和仓库拉一次对齐，定一个处理时限。\n\n下周计划\n和仓库敲定破损件处理时限；持续观察咨询量走势，必要时调整排班。";
+
+var tabA = $("#tabA"), tabB = $("#tabB");
+var promptBox = $("#promptBox"), outBox = $("#outBox"), outNote = $("#outNote");
+var chipRow = $("#chipRow"), chipCap = $("#chipCap");
+
+function esc(s){ return s.replace(/&/g,"&amp;").replace(/</g,"&lt;"); }
+function markPrompt(){
+  var t = esc(promptB);
+  t = t.replace(/我在电商公司做客服主管，带 6 个人。/, '<span class="hl role">我在电商公司做客服主管，带 6 个人。</span>');
+  t = t.replace(/(这周的零散记录：\n[^\n]*\n[^\n]*\n[^\n]*\n)/, '<span class="hl mat">$1</span>');
+  t = t.replace(/先一句话结论[\s\S]*?每段最多 3 行/, '<span class="hl req">先一句话结论，再分「本周结果 / 需要的支持 / 下周计划」三段，每段最多 3 行</span>');
+  t = t.replace(/务实一点，别吹。/, '<span class="hl tone">务实一点，别吹。</span>');
+  return t;
+}
+function setTab(which){
+  var a = which === "A";
+  tabA.setAttribute("aria-pressed", a ? "true" : "false");
+  tabB.setAttribute("aria-pressed", a ? "false" : "true");
+  if(a){
+    promptBox.textContent = promptA;
+    outBox.textContent = outA;
+    outNote.textContent = "全是正确的废话——它对你一无所知";
+    outNote.className = "bnote bad";
+    chipRow.classList.add("gone");
+    chipCap.textContent = "空手问：四样一样都没给";
+  }else{
+    promptBox.innerHTML = markPrompt();
+    outBox.textContent = outB;
+    outNote.textContent = "老板要的信息都在，改两个词就能发";
+    outNote.className = "bnote good";
+    chipRow.classList.remove("gone");
+    chipCap.textContent = "第二种问法里藏着四样东西，鼠标放到标签上找找看：";
+  }
+}
+tabA.addEventListener("click", function(){ setTab("A"); });
+tabB.addEventListener("click", function(){ setTab("B"); });
+setTab("A");
+
+Array.prototype.forEach.call(chipRow.querySelectorAll(".chip"), function(ch){
+  function on(){
+    if(chipRow.classList.contains("gone")) return;
+    off();
+    ch.classList.add("on");
+    var k = ch.getAttribute("data-k");
+    Array.prototype.forEach.call(document.querySelectorAll(".hl." + k), function(s){ s.classList.add("on"); });
+  }
+  function off(){
+    ch.classList.remove("on");
+    Array.prototype.forEach.call(document.querySelectorAll(".hl.on"), function(s){ s.classList.remove("on"); });
+  }
+  ch.addEventListener("mouseenter", on); ch.addEventListener("mouseleave", off);
+  ch.addEventListener("focus", on); ch.addEventListener("blur", off);
+  ch.addEventListener("click", function(){ ch.classList.contains("on") ? off() : on(); });
+  ch.setAttribute("tabindex","0");
+});
+
+/* ================= §2 协作循环 ================= */
+var nodes = [
+  { t:"说清意图", who:"u", d:"要什么、给谁看、做成什么样算好。一句话把这三样说完，AI 就不用猜。",
+    ex:"例：「给老板看的周报，务实，别吹。」" },
+  { t:"给足上下文", who:"u", d:"材料、背景、限制、例子，能贴就贴。三行零散记录，胜过一句「帮我写周报」。",
+    ex:"例：把本周的流水账原样贴给它" },
+  { t:"交给它干", who:"a", d:"初版出得又快又全，但可能有错、可能平庸——正常，它还没被你调过，别急着下结论。",
+    ex:"AI 产出初版：10 秒" },
+  { t:"验收与反馈", who:"u", d:"具体指出哪里不对，让它改。说「第二段太虚，换成数字」，别说「再改改」——越具体，改得越准。",
+    ex:"例：「需要支持」那段加上卡了几天" },
+  { t:"沉淀复用", who:"u", d:"好用的问法存下来，下次直接贴。给上下文的成本只付一次，之后每次白拿收益。",
+    ex:"例：把这段问法存进备忘录" }
+];
+var svgNS = "http://www.w3.org/2000/svg";
+var CX=340, CY=166, RX=252, RY=118;
+var gNodes = $("#nodes"), gArcs = $("#arcs"), detail = $("#loopDetail");
+var cur = -1, timer = null;
+
+function pt(deg){
+  var a = deg * Math.PI / 180;
+  return [CX + RX * Math.cos(a), CY + RY * Math.sin(a)];
+}
+/* 五段弧：相邻节点顺时针相连，第五段绕回起点 */
+(function buildArcs(){
+  var degs = [-90, -18, 54, 126, 198, 270];
+  for(var i=0;i<5;i++){
+    var p1 = pt(degs[i]), p2 = pt(degs[i+1]);
+    var path = document.createElementNS(svgNS, "path");
+    path.setAttribute("d", "M " + p1[0].toFixed(1) + " " + p1[1].toFixed(1) +
+      " A " + RX + " " + RY + " 0 0 1 " + p2[0].toFixed(1) + " " + p2[1].toFixed(1));
+    path.setAttribute("marker-end", "url(#arr)");
+    gArcs.appendChild(path);
+  }
+})();
+(function buildNodes(){
+  var degs = [-90, -18, 54, 126, 198];
+  degs.forEach(function(deg, i){
+    var p = pt(deg), n = nodes[i];
+    var g = document.createElementNS(svgNS, "g");
+    g.setAttribute("role","button"); g.setAttribute("tabindex","0");
+    g.setAttribute("aria-label", (i+1) + " " + n.t + (n.who==="u"?"（你）":"（AI）"));
+    g.style.cursor = "pointer";
+    var rect = document.createElementNS(svgNS, "rect");
+    rect.setAttribute("x", p[0]-50); rect.setAttribute("y", p[1]-19);
+    rect.setAttribute("width", 100); rect.setAttribute("height", 38); rect.setAttribute("rx", 19);
+    rect.setAttribute("fill", "#1c1c1f");
+    rect.setAttribute("stroke", n.who==="u" ? "rgba(93,148,201,.45)" : "rgba(210,154,74,.5)");
+    rect.setAttribute("stroke-width", "1.2");
+    var txt = document.createElementNS(svgNS, "text");
+    txt.setAttribute("x", p[0]); txt.setAttribute("y", p[1]+4.5);
+    txt.setAttribute("text-anchor","middle");
+    txt.setAttribute("font-size","14");
+    txt.setAttribute("fill", n.who==="u" ? "#a9c9e8" : "#e0b878");
+    txt.textContent = (i+1) + " " + n.t;
+    g.appendChild(rect); g.appendChild(txt);
+    function sel(){ select(i); }
+    g.addEventListener("click", sel);
+    g.addEventListener("keydown", function(e){ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); sel(); } });
+    gNodes.appendChild(g);
+  });
+})();
+function select(i){
+  cur = i;
+  Array.prototype.forEach.call(gNodes.children, function(g, j){
+    var rect = g.firstChild;
+    rect.setAttribute("fill", j===i ? (nodes[j].who==="u" ? "rgba(93,148,201,.16)" : "rgba(210,154,74,.16)") : "#1c1c1f");
+    rect.setAttribute("stroke-width", j===i ? "2" : "1.2");
+  });
+  var n = nodes[i];
+  detail.innerHTML = '<div class="row1"><span class="idx">' + (i+1) + ' / 5</span>' +
+    '<span class="title">' + n.t + '</span>' +
+    '<span class="own ' + n.who + '">' + (n.who==="u"?"你":"AI") + '</span></div>' +
+    '<div class="desc">' + n.d + '</div><div class="ex">' + n.ex + '</div>';
+}
+select(0);
+$("#autoBtn").addEventListener("click", function(){
+  var btn = this;
+  if(timer){ clearInterval(timer); timer = null; btn.textContent = "自动走一圈"; return; }
+  btn.textContent = "停一下";
+  var i = cur;
+  timer = setInterval(function(){
+    i = (i+1) % 5;
+    select(i);
+    if(i === 0){ clearInterval(timer); timer = null; btn.textContent = "自动走一圈"; }
+  }, 1500);
+});
+
+/* ================= §3 FSRS 简化演示 ================= */
+var cards = [
+  { q:"给 AI 的上下文，至少包含哪四样？",
+    a:"<b>角色</b>（我是谁）、<b>材料</b>（原始信息）、<b>要求</b>（格式、长度）、<b>语气</b>（务实、活泼）——就是第一节问法里的四块颜色。" },
+  { q:"初版不满意时，最有效的动作是什么？",
+    a:"<b>具体指出问题让它改</b>，而不是换个说法重问。反馈越具体，改得越准——这是循环的第 4 步。" },
+  { q:"为什么要把好用的问法存下来？",
+    a:"好问法是<b>可复用资产</b>：「给上下文」的成本只付一次，之后每次直接贴，白拿收益。" }
+];
+var cardIdx = 0, flipped = false;
+var reviews = [];            /* 每次复习发生在第几天 */
+var now = 0, nextGap = 2;    /* 复习节奏链：第一次复习安排在学习后 2 天 */
+var cardInner = $("#cardInner"), cardNo = $("#cardNo"), cardQ = $("#cardQ"), cardA = $("#cardA");
+var rateBtns = $("#rates").querySelectorAll("button");
+var flog = $("#flog"), fdone = $("#fdone"), cvNote = $("#cvNote");
+var cv = $("#cv"), ctx = cv.getContext("2d");
+
+function loadCard(i){
+  cardIdx = i;
+  cardNo.textContent = "卡片 " + (i+1) + " / 3";
+  cardQ.textContent = cards[i].q;
+  cardA.innerHTML = cards[i].a;
+  cardInner.classList.remove("flipped");
+  flipped = false;
+  Array.prototype.forEach.call(rateBtns, function(b){ b.disabled = true; });
+}
+cardInner.addEventListener("click", function(){
+  if(fdone.classList.contains("show")) return;
+  flipped = !flipped;
+  cardInner.classList.toggle("flipped", flipped);
+  Array.prototype.forEach.call(rateBtns, function(b){ b.disabled = !flipped; });
+});
+cardInner.addEventListener("keydown", function(e){
+  if(e.key==="Enter"||e.key===" "){ e.preventDefault(); cardInner.click(); }
+});
+
+Array.prototype.forEach.call(rateBtns, function(b){
+  b.addEventListener("click", function(){
+    if(!flipped) return;
+    var m = parseFloat(b.getAttribute("data-m"));
+    var rName = b.textContent;
+    now += nextGap;                       /* 时间前进到这次复习 */
+    reviews.push({ day: now });
+    var next = m === 0 ? 1 : Math.max(1, Math.round(nextGap * m));
+    var li = document.createElement("li");
+    li.innerHTML = '<span class="n">#' + reviews.length + '</span>' +
+      esc(cards[cardIdx].q.slice(0, 10)) + '… · <span class="r">' + rName +
+      '</span> → <span class="d">' + next + ' 天后</span>再见到它';
+    flog.appendChild(li);
+    nextGap = next;
+    draw();
+    if(cardIdx + 1 < cards.length){
+      loadCard(cardIdx + 1);
+    }else{
+      cardInner.style.display = "none";
+      $("#rates").style.display = "none";
+      fdone.classList.add("show");
+      cvNote.textContent = "复习了 " + reviews.length + " 次，间隔从 2 天拉长到了 " + nextGap +
+        " 天——曲线一段比一段平，同样的复习，换来越来越长的记得住。";
+    }
+  });
+});
+$("#fsrsReset").addEventListener("click", function(){
+  reviews = []; now = 0; nextGap = 2;
+  flog.innerHTML = "";
+  fdone.classList.remove("show");
+  cardInner.style.display = "";
+  $("#rates").style.display = "";
+  cvNote.textContent = "红虚线是不复习时的遗忘速度。点卡片翻面、评分一次，这里就会多一条曲线；空心点是安排好的下次复习。";
+  loadCard(0);
+  draw();
+});
+
+/* 记忆曲线：第 k 段从第 k 个锚点（学习、或某次复习）开始衰减，越往后越平 */
+function anchors(){ return [0].concat(reviews.map(function(r){ return r.day; })); }
+function segStart(k, a){ return k === 0 ? 100 : Math.min(100, segVal(k - 1, a[k], a) + 35); }
+function segVal(k, t, a){
+  var d0 = a[k];
+  var d1 = (k + 1 < a.length) ? a[k + 1] : d0 + nextGap;
+  var tau = Math.max(1, d1 - d0) / 0.35;
+  return segStart(k, a) * Math.exp(-(t - d0) / tau);
+}
+
+function draw(){
+  var H = 186, w = cv.clientWidth || 300;
+  var dpr = window.devicePixelRatio || 1;
+  cv.width = Math.round(w * dpr); cv.height = Math.round(H * dpr);
+  cv.style.height = H + "px";
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.clearRect(0, 0, w, H);
+  var padL = 38, padR = 14, padT = 14, padB = 22;
+  var a = anchors();
+  var dNext = a[a.length - 1] + nextGap;
+  var total = Math.max(14, dNext * 1.15);
+  function X(d){ return padL + (w - padL - padR) * d / total; }
+  function Y(r){ return padT + (H - padT - padB) * (1 - r / 100); }
+  /* 网格与坐标 */
+  ctx.strokeStyle = "#26262b"; ctx.lineWidth = 1;
+  ctx.fillStyle = "#757581"; ctx.font = "10px Consolas,ui-monospace,monospace";
+  [0, 50, 100].forEach(function(r){
+    ctx.beginPath(); ctx.moveTo(padL, Y(r)); ctx.lineTo(w - padR, Y(r)); ctx.stroke();
+    ctx.fillText(r + "%", 6, Y(r) + 3);
+  });
+  ctx.fillText("今天", padL - 4, H - 6);
+  var rl = Math.round(total) + " 天后";
+  ctx.fillText(rl, w - padR - ctx.measureText(rl).width, H - 6);
+  /* 不复习的红虚线 */
+  ctx.strokeStyle = "rgba(201,106,93,.7)"; ctx.lineWidth = 1.3; ctx.setLineDash([4, 4]);
+  ctx.beginPath();
+  for(var t = 0; t <= total; t += total / 60){
+    var rr = 100 * Math.exp(-t / 2.2);
+    if(t === 0) ctx.moveTo(X(t), Y(rr)); else ctx.lineTo(X(t), Y(rr));
+  }
+  ctx.stroke(); ctx.setLineDash([]);
+  /* 记忆曲线：历史段淡、当前段亮，实线终点是安排中的下次复习 */
+  for(var k = 0; k < a.length; k++){
+    var isLast = k === a.length - 1;
+    var dEnd = isLast ? dNext : a[k + 1];
+    ctx.strokeStyle = isLast ? "#5d94c9" : "rgba(93,148,201,.32)";
+    ctx.lineWidth = isLast ? 2 : 1;
+    ctx.beginPath();
+    for(var t2 = a[k]; t2 < dEnd; t2 += total / 90){
+      var v = segVal(k, t2, a);
+      if(t2 === a[k]) ctx.moveTo(X(t2), Y(v)); else ctx.lineTo(X(t2), Y(v));
+    }
+    ctx.lineTo(X(dEnd), Y(segVal(k, dEnd, a)));
+    ctx.stroke();
+  }
+  /* 历史复习点 */
+  for(var i = 1; i < a.length; i++){
+    var rv = segVal(i, a[i], a);
+    ctx.fillStyle = "#63b07c";
+    ctx.beginPath(); ctx.arc(X(a[i]), Y(rv), 3.2, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = "#757581";
+    ctx.fillText("第" + i + "次", X(a[i]) - 10, Y(rv) - 7);
+  }
+  /* 安排中的下次复习：空心点 */
+  var vN = segVal(a.length - 1, dNext, a);
+  ctx.strokeStyle = "#63b07c"; ctx.lineWidth = 1.4;
+  ctx.beginPath(); ctx.arc(X(dNext), Y(vN), 3.6, 0, Math.PI * 2); ctx.stroke();
+  ctx.fillStyle = "#a8d9b9";
+  ctx.fillText(reviews.length ? "下次复习" : "第一次复习", X(dNext) - 14, Y(vN) - 12);
+}
+window.addEventListener("resize", draw);
+loadCard(0);
+draw();
+
+/* ================= §4 checklist ================= */
+var KEY = "learn-ai-guide-todo";
+function syncTodo(){
+  var states = [];
+  for(var i = 1; i <= 4; i++) states.push($("#t" + i).checked ? 1 : 0);
+  try{ localStorage.setItem(KEY, states.join("")); }catch(e){}
+  var all = true;
+  for(var j = 1; j <= 4; j++){
+    var li = $("#t" + j).parentNode;
+    if($("#t" + j).checked) li.classList.add("done"); else { li.classList.remove("done"); all = false; }
+  }
+  $("#todoDone").classList.toggle("show", all);
+}
+(function initTodo(){
+  var saved = null;
+  try{ saved = localStorage.getItem(KEY); }catch(e){}
+  if(saved && saved.length === 4){
+    for(var i = 1; i <= 4; i++) $("#t" + i).checked = saved[i-1] === "1";
+  }
+  for(var j = 1; j <= 4; j++) $("#t" + j).addEventListener("change", syncTodo);
+  syncTodo();
+})();
+
+/* ================= §5 复制 ================= */
+$("#copyBtn").addEventListener("click", function(){
+  var text = $("#takeText").textContent;
+  var btn = this;
+  function ok(){
+    btn.textContent = "已复制，去发给它吧";
+    btn.classList.add("ok");
+    setTimeout(function(){ btn.textContent = "复制这句话"; btn.classList.remove("ok"); }, 2500);
+  }
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(ok, function(){ fallback(); });
+  }else{ fallback(); }
+  function fallback(){
+    var ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.position = "fixed"; ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.select();
+    var done = false;
+    try{ done = document.execCommand("copy"); }catch(e){}
+    document.body.removeChild(ta);
+    if(done){ ok(); }
+    else{ btn.textContent = "自动复制没成功，长按上面那段话手动复制"; }
+  }
+});
+})();
+</script>
+</body>
+</html>
